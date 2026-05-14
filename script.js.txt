@@ -1,0 +1,50 @@
+const cardsContainer = document.getElementById('cardsContainer');
+const searchInput = document.getElementById('searchInput');
+
+function renderStars(rating) {
+  let stars = '';
+
+  for (let i = 1; i <= 5; i++) {
+    stars += i <= rating ? '⭐' : '☆';
+  }
+
+  return stars;
+}
+
+function renderCards(data) {
+  cardsContainer.innerHTML = '';
+
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    card.innerHTML = `
+      <h2>${item.title}</h2>
+
+      <div class="rating">
+        ${renderStars(item.rating)}
+      </div>
+
+      <p>${item.description}</p>
+
+      <div class="review-box">
+        <h4>Reseña</h4>
+        <p>${item.review}</p>
+      </div>
+    `;
+
+    cardsContainer.appendChild(card);
+  });
+}
+
+renderCards(technologies);
+
+searchInput.addEventListener('input', (e) => {
+  const value = e.target.value.toLowerCase();
+
+  const filtered = technologies.filter(item =>
+    item.title.toLowerCase().includes(value)
+  );
+
+  renderCards(filtered);
+});
